@@ -1,0 +1,65 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://com/soap/producer/soapproducer/employee-information" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://com/soap/producer/soapproducer/employee-information" targetNamespace="http://com/soap/producer/soapproducer/employee-information">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://com/soap/producer/soapproducer/employee-information">
+            <xs:element name="getEmployeeInformationRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="employeeId" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getEmployeeInformationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="employeeInformation" type="tns:employeeInformation" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="employeeInformation">
+                <xs:sequence>
+                    <xs:element name="employeeName" type="xs:string" />
+                    <xs:element name="designation" type="xs:string" />
+                    <xs:element name="department" type="xs:string" />
+                    <xs:element name="salary" type="xs:double" />
+                    <xs:element name="gender" type="tns:gender" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="gender">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="MALE" />
+                    <xs:enumeration value="FEMALE" />
+                    <xs:enumeration value="TRANS" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getEmployeeInformationResponse">
+        <wsdl:part element="tns:getEmployeeInformationResponse" name="getEmployeeInformationResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getEmployeeInformationRequest">
+        <wsdl:part element="tns:getEmployeeInformationRequest" name="getEmployeeInformationRequest"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="EmployeeInformationPort">
+        <wsdl:operation name="getEmployeeInformation">
+            <wsdl:input message="tns:getEmployeeInformationRequest" name="getEmployeeInformationRequest"></wsdl:input>
+            <wsdl:output message="tns:getEmployeeInformationResponse" name="getEmployeeInformationResponse"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="EmployeeInformationPortSoap11" type="tns:EmployeeInformationPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="getEmployeeInformation">
+            <soap:operation soapAction="" />
+            <wsdl:input name="getEmployeeInformationRequest">
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output name="getEmployeeInformationResponse">
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="EmployeeInformationPortService">
+        <wsdl:port binding="tns:EmployeeInformationPortSoap11" name="EmployeeInformationPortSoap11">
+            <soap:address location="http://localhost:8080/ws" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
